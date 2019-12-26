@@ -1,0 +1,128 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+
+div{
+  padding: 0;
+  margin: 0;
+
+}
+
+body{
+
+  background-color: #3700A4;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: monospace;
+  font-size: 12px;
+  color: 	#404040;
+}
+h1{
+  text-align: center;
+  margin-bottom: .5em;
+  font-size: 3em;
+}
+h2{
+  margin-bottom: .3em;
+  margin-top: 1em;
+  font-size: 2em;
+}
+
+button{
+  font-family: monospace;
+  font-size: 20px;
+
+  border-radius: 3em;
+  padding: .4em;
+
+}
+button:focus {
+  outline:0;
+
+}
+
+
+#calculator{
+  background-color: #075CE0;
+  height: 550px;
+  width: 400px;
+  margin:0 auto;
+  margin-top: 2%;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  border-radius: 1em;
+  font-size: 40px;
+
+}
+#display{
+  margin: 0 auto;
+  padding: 25px;
+  width:350px;
+  height: 50px;
+  border: grey solid 1px;
+  border-radius: .2em;
+  background-color: #A9C3C7;
+  padding: 5px;
+
+  text-align: right;
+}
+#allButtons{
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: solid grey 1px;
+}
+
+#removers{
+  position:relative;
+  float: right;
+  padding-bottom: 10px;
+}
+#removers button{
+  background-color: #581E2D;
+  color: #EDCEE6;
+  width: 100px;
+  height: 50px;
+}
+
+#buttonsLeft{
+  position: relative;
+  float: left;
+}
+#buttonsLeft button{
+  margin: 5px;
+  width: 75px;
+  height: 75px;
+}
+
+#operatorsRight{
+  position: relative;
+  float: right;
+  vertical-align: middle;
+}
+#operatorsRight button{
+  background-color: #0F1B16;
+  color: #B2B7C3;
+  margin: 5px;
+  width: 75px;
+  height: 75px;
+}
+
+#operatorsRight ul{
+  list-style: none;
+}
+
+#signature{
+  font-size: 20px !important;
+  position: absolute;
+  bottom: 0%;
+  left:0%;
+  padding: .5%;
+  border-radius: 0 1em 0 0;
+  color: #808080;
+  background-color: rgb(255,255,255,.7);
+}
+
+.clear{
+  clear: both;
+}

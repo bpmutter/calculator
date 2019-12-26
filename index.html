@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- Made by Ben Perlmutter as part of the Odin Project -->
+<!-- December 2019 -->
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>JS Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+  <style media="screen" rel="stylesheet/css">
+
+  </style>
+
+</head>
+
+<body>
+
+  <div id="calculator">
+    <!-- where the calculator goes -->
+    <div id="display">
+      <p id="displayNumber"></p>
+    </div>
+    <div id="allButtons">
+      <div id="removers">
+        <button type="button" name="delete">Delete</button>
+        <button type="button" name="Clear" id="clear">Clear</button>
+      </div>
+      <div class="clear"></div>
+
+      <div id="buttonsToDisplay">
+        <div id="buttonsLeft">
+
+          <div class="buttonRow">
+            <button type="button" name="seven" class="numButton">7</button>
+            <button type="button" name="eight" class="numButton">8</button>
+            <button type="button" name="nine" class="numButton">9</button>
+          </div>
+          <div class="buttonRow">
+            <button type="button" name="four" class="numButton">4</button>
+            <button type="button" name="five" class="numButton">5</button>
+            <button type="button" name="six" class="numButton">6</button>
+          </div>
+          <div class="buttonRow">
+            <button type="button" name="one" class="numButton">1</button>
+            <button type="button" name="two" class="numButton">2</button>
+            <button type="button" name="three">3</button>
+          </div>
+          <div class="buttonRow">
+            <button type="button" name="zero" class="numButton">0</button>
+            <button type="button" name="decimal" class="numButton">.</button>
+            <button type="button" name="equals">=</button>
+          </div>
+
+        </div>
+        <div id="operatorsRight">
+          <ul>
+            <li><button type="button" name="divide">/</button></li>
+            <li><button type="button" name="multiply">*</button></li>
+            <li><button type="button" name="subtract">-</button></li>
+            <li><button type="button" name="add">+</button></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="signature">
+    <p>Made by <a href="https://github.com/bpmutter">
+        Ben Perlmutter</a> as part of
+      <a href="https://www.theodinproject.com/">The Odin Project</a>.</p>
+  </div>
+  <script type="text/javascript" src="script.js"></script>
+</body>
+
+</html>
