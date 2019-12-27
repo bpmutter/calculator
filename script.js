@@ -1,6 +1,8 @@
 
 //operators for calculator
 let add = function (a, b) {
+  a = Number(a);
+  b = Number(b);
   return a + b;
 }
 let subtract = function (a, b) {
@@ -48,9 +50,16 @@ compute.addEventListener("click", () => {
   let num1 = contentArr[0];
   let num2 = contentArr[1];
 
-  displayContent.innerHTML = operate(num1, num2, operatorName);
-
+  let solutionVal = operate(num1, num2, operatorName);
+  solutionVal = cleanSolution(solutionVal);
+  displayContent.innerHTML = solutionVal;
 });
+
+//support function for compute to make solution pretty
+const cleanSolution = function (solution) {
+  solution = Math.round(solution * 100) / 100;
+  return solution;
+}
 
 
 let clearDisplay = function () {
