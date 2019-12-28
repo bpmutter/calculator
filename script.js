@@ -1,8 +1,7 @@
 
 //operators for calculator
 let add = function (a, b) {
-  a = Number(a);
-  b = Number(b);
+
   return a + b;
 }
 let subtract = function (a, b) {
@@ -17,6 +16,8 @@ let divide = function (a, b) {
 
 //general function to call the above operators
 let operate = function (a, b, operator) {
+  a = Number(a);
+  b = Number(b);
   if (operator == "add") return add(a, b);
   if (operator == "subtract") return subtract(a, b);
   if (operator == "multiply") return multiply(a, b);
@@ -39,21 +40,26 @@ let operatorOn = false; //determine if operator in use for calculations with mul
 let displayButtons = document.querySelectorAll('.numButton');
 for (const button of displayButtons) {
   button.addEventListener("click", () => {
-    let doubleDecimal = false;
-    if (displayContent.innerHTML.toString().includes(".") && button.name == "decimal") {
-      alert("only 1 decimal point per number pls!")
-      doubleDecimal = true;
+
+    if (operatorOn == false) {
+      if (firstNum.toString().includes(".") && button.name == "decimal") {
+        alert("only 1 decimal point per number pls!")
+      }
+      else {
+        firstNum += button.innerHTML;
+        displayContent.innerHTML = cleanNumber(firstNum);
+        console.log("first num is " + firstNum);
+      }
     }
-    else if (operatorOn == false && doubleDecimal == false) {
-      firstNum += button.innerHTML;
-      displayContent.innerHTML = cleanNumber(firstNum);
-      console.log("first num is " + firstNum);
-    }
-    else if (operatorOn == true && doubleDecimal == false) {
-      const preSecondHTML = displayContent.innerHTML;
-      secondNum += button.innerHTML;
-      displayContent.innerHTML = cleanNumber(secondNum);
-      console.log("second num is " + secondNum)
+    else if (operatorOn == true) {
+      if (secondNum.toString().includes(".") && button.name == "decimal") {
+        alert("only 1 decimal point per number pls!")
+      }
+      else {
+        secondNum += button.innerHTML;
+        displayContent.innerHTML = cleanNumber(secondNum);
+        console.log("second num is " + secondNum)
+      }
     }
     else return;
 
@@ -62,22 +68,14 @@ for (const button of displayButtons) {
   });
 }
 
-//suppport function to make sure that numbers fit within the box and don't have anythign weird
-const cleanNumber = function (num) {
-  if (num.length > 9) {
-    let numClean = Number.parseFloat(num).toExponential(5);
-    return numClean;
-  }
-  else return num;
-}
-
-
 let operators = document.querySelectorAll(".operator");
 for (let operator of operators) {
   operator.addEventListener("click", () => {
-    if (operatorOn == true) {
+    if (operatorOn == true && secondNum === "") {
+      clearOperatorColor();
+    }
+    else if (operatorOn == true && secondNum !== "") {
       computeVal();
-
     }
     operatorName = operator.name;
     operator.style.backgroundColor = "green";
@@ -87,7 +85,11 @@ for (let operator of operators) {
 
 let compute = document.getElementById("equals");
 compute.addEventListener("click", () => {
-  if (operatorOn == true) {
+  if (operatorOn == true && secondNum === "") {
+    secondNum = firstNum;
+    computeVal();
+  }
+  else if (operatorOn == true) {
     computeVal();
   }
   else return;
@@ -107,8 +109,6 @@ let computeVal = function () {
     operatorOn = false;
     clearOperatorColor();
   }
-
-
 }
 
 //support function for compute to make solution pretty
@@ -124,6 +124,14 @@ const clearOperatorColor = function () {
     operators[i].style.backgroundColor = "#0F1B16";
   }
 }
+//suppport function to make sure that numbers fit within the box and don't have anythign weird
+const cleanNumber = function (num) {
+  if (num.toString().length > 9) {
+    let numClean = Number.parseFloat(num).toExponential(3);
+    return numClean;
+  }
+  else return num;
+}
 
 
 const clearButton = document.getElementById("clear");
@@ -131,6 +139,7 @@ clearButton.addEventListener("click", () => {
   resetCalc();
 });
 
+//support fxn to reset calculator
 const resetCalc = function () {
   firstNum = "";
   secondNum = "";
@@ -144,11 +153,12 @@ const resetCalc = function () {
 const deleteButton = document.getElementById("delete");
 deleteButton.addEventListener("click", () => {
   if (operatorOn == false) {
-    firstNum = firstNum.substring(0, firstNum.length - 1)
+    firstNum = firstNum.toString().substring(0, firstNum.toString().length - 1)
     displayContent.innerHTML = firstNum;
+
   }
-  if (operatorOn == true) {
-    secondNum = secondNum.substring(0, secondNum.length - 1)
+  else if (operatorOn == true) {
+    secondNum = secondNum.toString().substring(0, secondNum.toString().length - 1)
     displayContent.innerHTML = secondNum;
   }
 });
