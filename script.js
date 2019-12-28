@@ -25,24 +25,62 @@ let operate = function (a, b, operator) {
 
 }
 
+//variable to show the numbers on screen
 const displayContent = document.getElementById("displayNumber");
+
+//numbers to be used in the calculations
+let firstNum = "";
+let secondNum = "";
+
+let operatorName; //set operator name to be used in compute function below
+let operatorOn = false; //determine if operator in use for calculations with multiple operators
+
 //display value on the screen
 let displayButtons = document.querySelectorAll('.numButton');
 for (const button of displayButtons) {
   button.addEventListener("click", () => {
-    displayContent.innerHTML += button.innerHTML;
+    let doubleDecimal = false;
+    if (displayContent.innerHTML.toString().includes(".") && button.name == "decimal") {
+      alert("only 1 decimal point per number pls!")
+      doubleDecimal = true;
+    }
+    else if (operatorOn == false && doubleDecimal == false) {
+      firstNum += button.innerHTML;
+      displayContent.innerHTML = cleanNumber(firstNum);
+      console.log("first num is " + firstNum);
+    }
+    else if (operatorOn == true && doubleDecimal == false) {
+      const preSecondHTML = displayContent.innerHTML;
+      secondNum += button.innerHTML;
+      displayContent.innerHTML = cleanNumber(secondNum);
+      console.log("second num is " + secondNum)
+    }
+    else return;
+
+
+
   });
 }
-let operatorName; //set operator name to be used in compute function below
-let operatorOn = false; //determine if operator in use for calculations with multiple operators
-const operators = document.querySelectorAll(".operator");
+
+//suppport function to make sure that numbers fit within the box and don't have anythign weird
+const cleanNumber = function (num) {
+  if (num.length > 9) {
+    let numClean = Number.parseFloat(num).toExponential(5);
+    return numClean;
+  }
+  else return num;
+}
+
+
+let operators = document.querySelectorAll(".operator");
 for (let operator of operators) {
   operator.addEventListener("click", () => {
     if (operatorOn == true) {
       computeVal();
+
     }
     operatorName = operator.name;
-    displayContent.innerHTML += operator.innerHTML;
+    operator.style.backgroundColor = "green";
     operatorOn = true;
   });
 }
@@ -56,41 +94,61 @@ compute.addEventListener("click", () => {
 });
 
 let computeVal = function () {
-  const re = /\*|\+|\/|-/;
-  const contentArr = displayContent.innerHTML.split(re);
+  if (operatorName == "divide" && secondNum == 0) {
+    alert("You can't divide by 0!!");
+    resetCalc();
+  }
+  else {
+    let solutionVal = operate(firstNum, secondNum, operatorName);
+    solutionVal = cleanSolution(solutionVal);
+    firstNum = solutionVal;
+    displayContent.innerHTML = firstNum;
+    secondNum = "";
+    operatorOn = false;
+    clearOperatorColor();
+  }
 
-  let num1 = contentArr[0];
-  let num2 = contentArr[1];
 
-  let solutionVal = operate(num1, num2, operatorName);
-  solutionVal = cleanSolution(solutionVal);
-  displayContent.innerHTML = solutionVal;
-  operatorOn = false;
 }
 
 //support function for compute to make solution pretty
 const cleanSolution = function (solution) {
-  solution = Math.round(solution * 100) / 100;
+  solution = Math.round(solution * 1000) / 1000;
+  solution = cleanNumber(solution);
   return solution;
 }
 
-
-let clearDisplay = function () {
-  const clearButton = document.getElementById("clear");
-  clearButton.addEventListener("click", () => {
-    displayContent.innerHTML = "";
-    operatorOn = false;
-  });
+//support function to remove color from active operator
+const clearOperatorColor = function () {
+  for (let i = 0; i < operators.length; i++) {
+    operators[i].style.backgroundColor = "#0F1B16";
+  }
 }
 
-let deleteVal = function () {
-  const deleteButton = document.getElementById("delete");
-  deleteButton.addEventListener("click", () => {
-    displayContent.innerHTML = displayContent.innerHTML.substring(0,
-      displayContent.innerHTML.length - 1);
-  });
 
+const clearButton = document.getElementById("clear");
+clearButton.addEventListener("click", () => {
+  resetCalc();
+});
+
+const resetCalc = function () {
+  firstNum = "";
+  secondNum = "";
+  operatorName = "";
+  displayContent.innerHTML = "";
+  operatorOn = false;
+  clearOperatorColor();
 }
 
-clearDisplay();
-deleteVal();
+
+const deleteButton = document.getElementById("delete");
+deleteButton.addEventListener("click", () => {
+  if (operatorOn == false) {
+    firstNum = firstNum.substring(0, firstNum.length - 1)
+    displayContent.innerHTML = firstNum;
+  }
+  if (operatorOn == true) {
+    secondNum = secondNum.substring(0, secondNum.length - 1)
+    displayContent.innerHTML = secondNum;
+  }
+});
