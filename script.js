@@ -34,16 +34,28 @@ for (const button of displayButtons) {
   });
 }
 let operatorName; //set operator name to be used in compute function below
+let operatorOn = false; //determine if operator in use for calculations with multiple operators
 const operators = document.querySelectorAll(".operator");
 for (let operator of operators) {
   operator.addEventListener("click", () => {
+    if (operatorOn == true) {
+      computeVal();
+    }
     operatorName = operator.name;
     displayContent.innerHTML += operator.innerHTML;
+    operatorOn = true;
   });
 }
 
 let compute = document.getElementById("equals");
 compute.addEventListener("click", () => {
+  if (operatorOn == true) {
+    computeVal();
+  }
+  else return;
+});
+
+let computeVal = function () {
   const re = /\*|\+|\/|-/;
   const contentArr = displayContent.innerHTML.split(re);
 
@@ -53,7 +65,8 @@ compute.addEventListener("click", () => {
   let solutionVal = operate(num1, num2, operatorName);
   solutionVal = cleanSolution(solutionVal);
   displayContent.innerHTML = solutionVal;
-});
+  operatorOn = false;
+}
 
 //support function for compute to make solution pretty
 const cleanSolution = function (solution) {
@@ -66,6 +79,7 @@ let clearDisplay = function () {
   const clearButton = document.getElementById("clear");
   clearButton.addEventListener("click", () => {
     displayContent.innerHTML = "";
+    operatorOn = false;
   });
 }
 
